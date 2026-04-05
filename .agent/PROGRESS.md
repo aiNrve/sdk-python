@@ -1,6 +1,6 @@
 # Build Progress
 
-## Status: IN PROGRESS
+## Status: COMPLETE
 
 ## Phase 1 — Foundation
 - [x] .agent/ markdown files created
@@ -23,25 +23,25 @@
 ## Phase 4 — Client
 - [x] _client.py — Client (sync)
 - [x] _client.py — AsyncClient
-- [ ] __init__.py — public exports
+- [x] __init__.py — public exports
 
 ## Phase 5 — Tests
-- [ ] tests/conftest.py — fixtures + mock proxy
+- [x] tests/conftest.py — fixtures + mock proxy
 - [x] tests/test_client.py
 - [x] tests/test_chat.py
 - [x] tests/test_streaming.py
 - [x] tests/test_exceptions.py
-- [ ] tests/test_migration.py
-- [ ] pytest passes (all tests green)
+- [x] tests/test_migration.py
+- [x] pytest passes (all tests green)
 
 ## Phase 6 — Polish
-- [ ] README.md
-- [ ] CHANGELOG.md
-- [ ] pyproject.toml complete (metadata, classifiers, scripts)
-- [ ] python -m build produces clean wheel + sdist
+- [x] README.md
+- [x] CHANGELOG.md
+- [x] pyproject.toml complete (metadata, classifiers, scripts)
+- [x] python -m build produces clean wheel + sdist
 
 ## Current session working on
-Step 8 — Public exports
+Completed
 
 ## Known issues / blockers
 None

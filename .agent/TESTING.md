@@ -9,6 +9,8 @@
 ## Mock strategy
 Use respx.mock as a context manager or decorator to intercept
 httpx calls. Do NOT spin up a real server in unit tests.
+Shared fixtures for test payloads and defaults live in
+tests/conftest.py.
 
 ## Transport coverage
 Include explicit tests for HTTP status-to-exception mapping in

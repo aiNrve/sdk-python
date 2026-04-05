@@ -51,6 +51,28 @@ def test_client_default_base_url_is_localhost(monkeypatch: pytest.MonkeyPatch) -
         client.close()
 
 
+def test_client_uses_env_var_timeout(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Client should read timeout from AINRVE_TIMEOUT when omitted."""
+    monkeypatch.setenv("AINRVE_TIMEOUT", "12.5")
+    client = Client(api_key="test-key")
+    try:
+        assert client._transport.timeout == 12.5
+    finally:
+        client.close()
+
+
+def test_client_invalid_env_timeout_falls_back_default(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Invalid AINRVE_TIMEOUT values should fall back to 30s."""
+    monkeypatch.setenv("AINRVE_TIMEOUT", "not-a-number")
+    client = Client(api_key="test-key")
+    try:
+        assert client._transport.timeout == 30.0
+    finally:
+        client.close()
+
+
 def test_client_context_manager_closes_transport() -> None:
     """Sync client context manager should close the underlying transport."""
     client = Client(api_key="test-key")

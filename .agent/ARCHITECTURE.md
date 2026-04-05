@@ -37,11 +37,12 @@ ainrve/
       completions.py   → ChatCompletions resource (sync + async)
   types/
     __init__.py
-    chat_completion.py → ChatCompletion, Choice, Message, Usage
+    chat_completion.py → ChatCompletion, Choice, ChatCompletionMessage, Usage
     stream.py          → ChatCompletionChunk, ChoiceDelta
 
 tests/
   conftest.py          → pytest fixtures, mock proxy server
+  test_http.py         → HTTP transport and error mapping
   test_client.py       → Client init, base_url resolution
   test_chat.py         → chat.completions.create() sync + async
   test_streaming.py    → streaming response parsing

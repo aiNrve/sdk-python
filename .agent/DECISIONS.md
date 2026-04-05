@@ -30,10 +30,9 @@ so that ainrve extensions (like provider field) don't break parsing.
 
 ## ADR-006: api_key falls back to env var
 If api_key is not passed to the constructor, read AINRVE_API_KEY
-from environment. If neither is set, raise AuthError at call time
-(not at construction time — lazy validation).
+from environment. If neither is set, use "local-dev-key" to support
+local proxy development without extra setup.
 
-## ADR-007: local-dev-key default for local development
-To keep local proxy development frictionless, Client/AsyncClient
-fall back to "local-dev-key" when no api_key argument and no
-AINRVE_API_KEY env var are provided.
+## ADR-007: timeout resolution supports env configuration
+Client/AsyncClient resolve timeout in this order: constructor arg,
+AINRVE_TIMEOUT environment variable, then default 30.0 seconds.

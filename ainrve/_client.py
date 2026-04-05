@@ -42,7 +42,7 @@ class Client:
 		self,
 		api_key: str | None = None,
 		base_url: str | None = None,
-		timeout: float = 30.0,
+		timeout: float | None = None,
 	) -> None:
 		"""Create a sync aiNrve client.
 
@@ -51,13 +51,15 @@ class Client:
 				``local-dev-key``.
 			base_url: aiNrve proxy URL. Falls back to ``AINRVE_BASE_URL`` and
 				then ``http://localhost:8080``.
-			timeout: Request timeout in seconds.
+			timeout: Request timeout in seconds. If omitted, falls back to
+				``AINRVE_TIMEOUT`` and then ``30.0``.
 		"""
 		resolved_key = api_key or os.environ.get("AINRVE_API_KEY") or "local-dev-key"
 		resolved_url = (
 			base_url or os.environ.get("AINRVE_BASE_URL") or "http://localhost:8080"
 		)
-		self._transport = HttpTransport(resolved_url, resolved_key, timeout)
+		resolved_timeout = _resolve_timeout(timeout)
+		self._transport = HttpTransport(resolved_url, resolved_key, resolved_timeout)
 		self.chat = Chat(self._transport)
 
 	def close(self) -> None:
@@ -83,7 +85,7 @@ class AsyncClient:
 		self,
 		api_key: str | None = None,
 		base_url: str | None = None,
-		timeout: float = 30.0,
+		timeout: float | None = None,
 	) -> None:
 		"""Create an async aiNrve client.
 
@@ -92,13 +94,15 @@ class AsyncClient:
 				``local-dev-key``.
 			base_url: aiNrve proxy URL. Falls back to ``AINRVE_BASE_URL`` and
 				then ``http://localhost:8080``.
-			timeout: Request timeout in seconds.
+			timeout: Request timeout in seconds. If omitted, falls back to
+				``AINRVE_TIMEOUT`` and then ``30.0``.
 		"""
 		resolved_key = api_key or os.environ.get("AINRVE_API_KEY") or "local-dev-key"
 		resolved_url = (
 			base_url or os.environ.get("AINRVE_BASE_URL") or "http://localhost:8080"
 		)
-		self._transport = AsyncHttpTransport(resolved_url, resolved_key, timeout)
+		resolved_timeout = _resolve_timeout(timeout)
+		self._transport = AsyncHttpTransport(resolved_url, resolved_key, resolved_timeout)
 		self.chat = AsyncChat(self._transport)
 
 	async def aclose(self) -> None:
@@ -112,4 +116,26 @@ class AsyncClient:
 	async def __aexit__(self, *args: object) -> None:
 		"""Exit async context manager scope and close the async transport."""
 		await self.aclose()
+
+
+def _resolve_timeout(timeout: float | None) -> float:
+	"""Resolve timeout from constructor argument, env var, or default.
+
+	Args:
+		timeout: Optional constructor-provided timeout.
+
+	Returns:
+		Final timeout value in seconds.
+	"""
+	if timeout is not None:
+		return float(timeout)
+
+	env_timeout = os.environ.get("AINRVE_TIMEOUT")
+	if env_timeout is None:
+		return 30.0
+
+	try:
+		return float(env_timeout)
+	except ValueError:
+		return 30.0
 

@@ -14,6 +14,11 @@ httpx calls. Do NOT spin up a real server in unit tests.
 Include explicit tests for HTTP status-to-exception mapping in
 tests/test_http.py (401/429/502/503 and connection failures).
 
+## Chat resource coverage
+tests/test_chat.py validates sync + async create(), stream object
+returns, chunk yielding, header injection for task/provider, response
+provider extraction, and request-body field serialization behavior.
+
 Example mock pattern:
   import respx
   import httpx

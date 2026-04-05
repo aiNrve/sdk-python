@@ -2,6 +2,9 @@
 
 ## Sync client
 
+    # create() accepts OpenAI-compatible kwargs plus aiNrve extensions:
+    # task=... and provider=... (sent as headers, not body fields)
+
   import ainrve
 
   client = ainrve.Client(
@@ -42,6 +45,8 @@
 
 ## Async client
 
+    # Async create() has the same signature and kwargs behavior.
+
   import ainrve
   import asyncio
 
@@ -71,6 +76,7 @@
   AINRVE_API_KEY      — default api_key if not passed to constructor
   AINRVE_BASE_URL     — default base_url (default: http://localhost:8080)
   AINRVE_TIMEOUT      — default timeout in seconds (default: 30)
+    (If api_key/env is missing, Client uses "local-dev-key" fallback)
 
 ## Response object shape (identical to openai)
   response.id                              # str

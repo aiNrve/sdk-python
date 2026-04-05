@@ -32,3 +32,8 @@ so that ainrve extensions (like provider field) don't break parsing.
 If api_key is not passed to the constructor, read AINRVE_API_KEY
 from environment. If neither is set, raise AuthError at call time
 (not at construction time — lazy validation).
+
+## ADR-007: local-dev-key default for local development
+To keep local proxy development frictionless, Client/AsyncClient
+fall back to "local-dev-key" when no api_key argument and no
+AINRVE_API_KEY env var are provided.

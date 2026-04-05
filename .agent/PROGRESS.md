@@ -15,20 +15,20 @@
 - [x] _streaming.py — SSE stream parser + Stream/AsyncStream
 
 ## Phase 3 — Resources
-- [ ] resources/chat/completions.py — sync ChatCompletions
-- [ ] resources/chat/completions.py — async ChatCompletions
+- [x] resources/chat/completions.py — sync ChatCompletions
+- [x] resources/chat/completions.py — async ChatCompletions
 - [x] types/chat_completion.py — response types
 - [x] types/stream.py — streaming chunk types
 
 ## Phase 4 — Client
-- [ ] _client.py — Client (sync)
-- [ ] _client.py — AsyncClient
+- [x] _client.py — Client (sync)
+- [x] _client.py — AsyncClient
 - [ ] __init__.py — public exports
 
 ## Phase 5 — Tests
 - [ ] tests/conftest.py — fixtures + mock proxy
-- [ ] tests/test_client.py
-- [ ] tests/test_chat.py
+- [x] tests/test_client.py
+- [x] tests/test_chat.py
 - [x] tests/test_streaming.py
 - [x] tests/test_exceptions.py
 - [ ] tests/test_migration.py
@@ -41,7 +41,7 @@
 - [ ] python -m build produces clean wheel + sdist
 
 ## Current session working on
-Step 6 — ChatCompletions resource
+Step 8 — Public exports
 
 ## Known issues / blockers
 None

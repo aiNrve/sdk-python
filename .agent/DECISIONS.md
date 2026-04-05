@@ -36,3 +36,8 @@ local proxy development without extra setup.
 ## ADR-007: timeout resolution supports env configuration
 Client/AsyncClient resolve timeout in this order: constructor arg,
 AINRVE_TIMEOUT environment variable, then default 30.0 seconds.
+
+## ADR-008: Stream iterator owns response lifecycle
+Stream.__iter__ opens and closes the underlying httpx streaming
+response context internally. Callers use plain iteration
+(`for chunk in stream`) without explicit context management.

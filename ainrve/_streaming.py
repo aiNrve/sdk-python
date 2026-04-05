@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import AsyncIterator, Iterator
-from contextlib import AbstractAsyncContextManager, AbstractContextManager
+from contextlib import AbstractAsyncContextManager, AbstractContextManager, ExitStack
 
 import httpx
 
@@ -57,7 +57,13 @@ class Stream:
 
 	def __iter__(self) -> Iterator[ChatCompletionChunk]:
 		"""Yield completion chunks parsed from SSE lines."""
-		with self._response as resp:
+		with ExitStack() as stack:
+			if isinstance(self._response, httpx.Response):
+				resp = self._response
+				stack.callback(resp.close)
+			else:
+				resp = stack.enter_context(self._response)
+
 			for line in resp.iter_lines():
 				parsed = _parse_sse_line(line)
 				if parsed is None:

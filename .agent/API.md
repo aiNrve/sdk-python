@@ -40,6 +40,7 @@
       messages=[{"role": "user", "content": "Tell me a story"}],
       stream=True,
   )
+  # No explicit close() or context manager required.
   for chunk in stream:
       print(chunk.choices[0].delta.content or "", end="", flush=True)
 

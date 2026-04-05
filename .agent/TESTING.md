@@ -21,6 +21,11 @@ tests/test_chat.py validates sync + async create(), stream object
 returns, chunk yielding, header injection for task/provider, response
 provider extraction, and request-body field serialization behavior.
 
+## Stream lifecycle coverage
+tests/test_streaming.py includes a regression test ensuring sync
+stream iteration (`for chunk in stream`) opens/closes the response
+context internally without requiring caller-managed context blocks.
+
 Example mock pattern:
   import respx
   import httpx

@@ -41,7 +41,7 @@
 - [x] python -m build produces clean wheel + sdist
 
 ## Current session working on
-Completed
+Post-completion patch: Stream.__iter__ internal lifecycle handling
 
 ## Known issues / blockers
 None

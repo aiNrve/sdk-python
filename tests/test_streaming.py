@@ -41,6 +41,23 @@ class _FakeSyncResponseCM:
             yield line
 
 
+class _TrackingSyncResponseCM(_FakeSyncResponseCM):
+    """Sync context manager that records whether enter/exit are called."""
+
+    def __init__(self, lines: list[str]) -> None:
+        super().__init__(lines)
+        self.entered = False
+        self.exited = False
+
+    def __enter__(self) -> _TrackingSyncResponseCM:
+        self.entered = True
+        return self
+
+    def __exit__(self, *args: object) -> None:
+        self.exited = True
+        return None
+
+
 class _FakeAsyncResponse:
     """Minimal async response exposing aiter_lines()."""
 
@@ -80,6 +97,23 @@ def test_stream_parses_multiple_sse_chunks_correctly() -> None:
     assert len(chunks) == 2
     assert chunks[0].choices[0].delta.content == "Hello"
     assert chunks[1].choices[0].delta.content == " world"
+
+
+def test_stream_iteration_manages_context_internally() -> None:
+    """Plain iteration should open/close the response context automatically."""
+    response_cm = _TrackingSyncResponseCM(
+        [
+            f"data: {_chunk_payload('hello')}",
+            "data: [DONE]",
+        ]
+    )
+
+    chunks = list(Stream(response_cm))
+
+    assert len(chunks) == 1
+    assert chunks[0].choices[0].delta.content == "hello"
+    assert response_cm.entered is True
+    assert response_cm.exited is True
 
 
 def test_stream_stops_at_done() -> None:
